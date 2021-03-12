@@ -11,7 +11,7 @@ app.use((req, res, next) => {
     res.send("Welcome to Express")
 });
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://locahost/travel-with", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/travel-with", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

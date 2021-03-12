@@ -19,7 +19,7 @@ const UserSchema = new Schema(
             required: true,
             minlength: 5
         },
-        vacation: [
+        vacations: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Vacation'
