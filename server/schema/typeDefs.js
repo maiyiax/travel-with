@@ -15,7 +15,7 @@ const typeDefs = gql`
         restaurants: [Restaurant]
     }
 
-    type Restaurants {
+    type Restaurant {
         _id:ID
         name: String
         link: String
@@ -25,16 +25,16 @@ const typeDefs = gql`
     type Query {
         user: User
         vacation(_id:ID!): Vacation
-        restaurants(_id:ID!): Restaurants
+        restaurants(_id:ID!): Restaurant
     }
 
     type Mutation {
         addUser(username: String!, email: String!, password: String!): User
         addVacation(name: String!, description: String!): Vacation
-        addRestaurants(name: String!, link: String!, review: String!): Restaurants
+        addRestaurants(name: String!, link: String!, review: String!): Restaurant
         updateUser(username: String, email: String, password: String): User
         updateVacation(name: String, descriptions: String): Vacation
-        updateRestaurants(name: String, link: String, review: String): Restaurants
+        updateRestaurants(name: String, link: String, review: String): Restaurant
     }
 
 `;
