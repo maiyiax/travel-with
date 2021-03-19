@@ -1,12 +1,21 @@
+const { AuthenticationError } = require('apollo-server-express');
 const {User,Restaurant,Vacation} = require("../models");
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        //users
-        user: async (args) => {
-            const user = await User.findById(args).populate("vacations")
-            return user;
+        // pull information pertaining to logged in user
+        me: async (parent, args, context) => {
+            console.log(context)
+            if (context.user) {
+                const user = await User.findOne({ _id: context.user._id })
+                    .select('-__v -password')
+                    .populate('vacations');
+
+                return user;
+            }
         },
+
         vacation: async({_id}) => {
             const vacation = await Vacation.findById({_id}).populate("restaurants")
             return vacation;
@@ -18,9 +27,21 @@ const resolvers = {
     },
 
     Mutation: {
-        addUser: async (parent,args) => {
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                throw new AuthenticationError('No User found with that email');
+            }
+
+            const token = signToken(user);
+            return { token, user };
+        },
+
+        addUser: async (parent, args) => {
             const user = await User.create(args);
-            return user;
+            const token = signToken(user);
+            return {token, user};
         },
         addVacation: async (parent,args) =>{
             const vacation = await Vacation.create(args);
