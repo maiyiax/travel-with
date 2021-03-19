@@ -6,7 +6,7 @@ const resolvers = {
     Query: {
         // pull information pertaining to logged in user
         me: async (parent, args, context) => {
-            console.log(context)
+            console.log(context.user)
             if (context.user) {
                 const user = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
@@ -41,11 +41,20 @@ const resolvers = {
         addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);
+            console.log(token)
             return {token, user};
         },
-        addVacation: async (parent,args) =>{
+        addVacation: async (parent,args,context) =>{
+            if(context.user){
             const vacation = await Vacation.create(args);
+            await User.findOneAndUpdate(
+                {_id: context.user._id},
+                {$push: {vacations: vacation}},
+                {new: true}
+            )
             return vacation;
+            }
+            throw new AuthenticationError("You need to be logged in.")
         },
         addRestaurants: async (parent,args) => {
             const restaurants = await Restaurant.create(args);
@@ -57,12 +66,35 @@ const resolvers = {
         },
         updateVacation: async (parent,args) => {
             const vacation = await Vacation.findByIdAndUpdate(args,{new:true});
+            await User.findOneAndUpdate(
+                {_id: context.user._id},
+                {$push: {vacations: vacation}},
+                {new: true}
+            )
             return vacation;
         },
         updateRestaurants: async (parent,args) => {
             const restaurants = await Restaurant.findByIdAndUpdate(args,{new:true});
             return restaurants;
+        },
+        removeVacation: async ({vacationId},context) => {
+            if(context.user){
+                const deleteVacation = await Vacation.findOneAndDelete({_id: vacationId});
+                await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$pull: {vacations: {deleteVacation}}},
+                    {new: true}
+                )
+                return deleteVacation;
+            }
+        },
+        removeRestaurants: async ({restaurantsId},context) => {
+            if(context.user){
+                const deleteRestaurant = await Restaurant.findOneAndDelete({_id: restaurantsId});
+                return deleteRestaurant;
+            }
         }
+
 
     }
 };

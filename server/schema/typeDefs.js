@@ -41,6 +41,8 @@ const typeDefs = gql`
         updateUser(username: String, email: String, password: String): Auth
         updateVacation(name: String, descriptions: String): Vacation
         updateRestaurants(name: String, link: String, review: String): Restaurant
+        removeVacation(vacationId:ID): Vacation
+        removeRestaurants(restaurantsId:ID): Restaurant
     }
 
 `;
