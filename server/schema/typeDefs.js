@@ -22,17 +22,23 @@ const typeDefs = gql`
         review: String
     }
 
-    type Query {
+    type Auth {
+        token: ID!
         user: User
+    }
+
+    type Query {
+        me: User
         vacation(_id:ID!): Vacation
         restaurants(_id:ID!): Restaurant
     }
 
     type Mutation {
-        addUser(username: String!, email: String!, password: String!): User
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
         addVacation(name: String!, description: String!): Vacation
         addRestaurants(name: String!, link: String!, review: String!): Restaurant
-        updateUser(username: String, email: String, password: String): User
+        updateUser(username: String, email: String, password: String): Auth
         updateVacation(name: String, descriptions: String): Vacation
         updateRestaurants(name: String, link: String, review: String): Restaurant
     }
