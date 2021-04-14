@@ -1,12 +1,11 @@
 const { AuthenticationError } = require('apollo-server-express');
-const {User,Restaurant,Vacation} = require("../models");
+const {User, Vacation} = require("../models");
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
         // pull information pertaining to logged in user
         me: async (parent, args, context) => {
-            console.log(context.user)
             if (context.user) {
                 const user = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
@@ -20,10 +19,10 @@ const resolvers = {
             const vacation = await Vacation.findById({_id}).populate("restaurants")
             return vacation;
         },
-        restaurants: async({_id}) => {
-            const restaurants = await Restaurant.findById({_id})
-            return restaurants;
-        }
+        // restaurants: async({_id}) => {
+        //     const restaurants = await Restaurant.findById({_id})
+        //     return restaurants;
+        // }
     },
 
     Mutation: {
@@ -44,6 +43,7 @@ const resolvers = {
             console.log(token)
             return {token, user};
         },
+
         addVacation: async (parent,args,context) =>{
             if(context.user){
             const vacation = await Vacation.create(args);
@@ -56,13 +56,15 @@ const resolvers = {
             }
             throw new AuthenticationError("You need to be logged in.")
         },
-        addRestaurants: async (parent,args) => {
-            const restaurants = await Restaurant.create(args);
-            return restaurants;
-        },
-        updateUser: async (parent,args) => {
-            const user = await User.findByIdAndUpdate(args,{new: true});
-            return user;
+        // addRestaurants: async (parent,args) => {
+        //     const restaurants = await Restaurant.create(args);
+        //     return restaurants;
+        // },
+        updateUser: async (parent,args, context) => {
+            if (context.user) {
+                return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+            }
+            throw new AuthenticationError('Not logged in');
         },
         updateVacation: async (parent,args) => {
             const vacation = await Vacation.findByIdAndUpdate(args,{new:true});
@@ -73,12 +75,13 @@ const resolvers = {
             )
             return vacation;
         },
-        updateRestaurants: async (parent,args) => {
-            const restaurants = await Restaurant.findByIdAndUpdate(args,{new:true});
-            return restaurants;
-        },
-        removeVacation: async ({vacationId},context) => {
+        // updateRestaurants: async (parent,args) => {
+        //     const restaurants = await Restaurant.findByIdAndUpdate(args,{new:true});
+        //     return restaurants;
+        // },
+        removeVacation: async (parent, {vacationId}, context) => {
             if(context.user){
+                console.log({vacationId});
                 const deleteVacation = await Vacation.findOneAndDelete({_id: vacationId});
                 await User.findOneAndUpdate(
                     {_id: context.user._id},
@@ -88,12 +91,12 @@ const resolvers = {
                 return deleteVacation;
             }
         },
-        removeRestaurants: async ({restaurantsId},context) => {
-            if(context.user){
-                const deleteRestaurant = await Restaurant.findOneAndDelete({_id: restaurantsId});
-                return deleteRestaurant;
-            }
-        }
+        // removeRestaurants: async ({restaurantsId},context) => {
+        //     if(context.user){
+        //         const deleteRestaurant = await Restaurant.findOneAndDelete({_id: restaurantsId});
+        //         return deleteRestaurant;
+        //     }
+        // }
 
 
     }

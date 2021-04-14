@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const RestaurantSchema = require('./Restaurant');
+const LocationSchema = require('./Location');
 
 const VacationSchema = new Schema(
     {
@@ -12,12 +14,8 @@ const VacationSchema = new Schema(
             type: String,
             required: true,
         },
-        restaurants: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Restaurant'
-            }
-        ]
+        restaurants: [RestaurantSchema],
+        locations: [LocationSchema]
 
     }
 );
