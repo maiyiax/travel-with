@@ -1,8 +1,27 @@
 //signup and login forms here 
-import React from "react";
+import {React,useState} from "react";
 
 export const Signup = () => {
     //state here
+    const [formState, setFormState] = useState(
+        {
+            username: "",
+            email: "",
+            password: "",
+            phoneNumber: "",
+        }
+    );
+
+    const handleChange = event => {
+        const {name, value} = event.target;
+        console.log(value)
+
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
+    
 
     //return form here 
     return(
@@ -10,13 +29,15 @@ export const Signup = () => {
         <h4>Sign Up</h4>
         <form>
             <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Full Name</label>
+                <label for="exampleInputEmail1" className="form-label">User Name</label>
                     <input 
                         className="class-form control formInput"
-                        placeholder="name"
-                        name="name"
-                        type="name"
-                        id="name"
+                        placeholder="username"
+                        name="username"
+                        type="username"
+                        id="username"
+                        value={setFormState.username}
+                        onChange={handleChange}
                     />
             </div>
             <div className ="mb-3">
@@ -27,6 +48,8 @@ export const Signup = () => {
                     name="password"
                     type="password"
                     id="password"
+                    value={setFormState.password}
+                    onChange={handleChange}
                 />
             </div>
             <div className ="mb-3">
@@ -37,6 +60,8 @@ export const Signup = () => {
                     name="email"
                     type="email"
                     id="email"
+                    value={setFormState.email}
+                    onChange={handleChange}
                 />
             </div>
             <div className ="mb-3">
@@ -47,6 +72,8 @@ export const Signup = () => {
                     name="phone number"
                     type="phone number"
                     id="phone number"
+                    value={setFormState.phoneNumber}
+                    onChange={handleChange}
                 />
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
