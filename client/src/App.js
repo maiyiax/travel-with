@@ -1,5 +1,4 @@
 import './App.css';
-import {Login, Signup} from "./components/Forms.js";
 
 function App() {
   return (

@@ -15,13 +15,6 @@ const typeDefs = gql`
         restaurants: [Restaurant]
     }
 
-    type Restaurant {
-        _id:ID
-        name: String
-        link: String
-        review: String
-    }
-
     type Auth {
         token: ID!
         user: User
@@ -30,19 +23,15 @@ const typeDefs = gql`
     type Query {
         me: User
         vacation(_id:ID!): Vacation
-        restaurants(_id:ID!): Restaurant
     }
 
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
         addVacation(name: String!, description: String!): Vacation
-        addRestaurants(name: String!, link: String!, review: String!): Restaurant
-        updateUser(username: String, email: String, password: String): Auth
-        updateVacation(name: String, descriptions: String): Vacation
-        updateRestaurants(name: String, link: String, review: String): Restaurant
-        removeVacation(vacationId:ID): Vacation
-        removeRestaurants(restaurantsId:ID): Restaurant
+        updateUser(username: String, email: String, password: String): User
+        updateVacation(name: String, description: String): Vacation
+        removeVacation(vacationId: ID): Vacation
     }
 
 `;

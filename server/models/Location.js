@@ -1,6 +1,6 @@
 const { Schema } = require('mongoose');
 
-const RestaurantSchema = new Schema(
+const LocationSchema = new Schema(
     {
         name: {
             type: String,
@@ -16,4 +16,4 @@ const RestaurantSchema = new Schema(
     }
 )
 
-module.exports = RestaurantSchema;
+module.exports = LocationSchema;
