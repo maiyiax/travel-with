@@ -1,10 +1,10 @@
-import React from 'react';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      Hello
+      {/*going to input logIn/signUp here */}
+      <Signup />
     </div>
   );
 }
