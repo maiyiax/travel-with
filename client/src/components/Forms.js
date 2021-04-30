@@ -21,8 +21,9 @@ export const Signup = () => {
             [name]: value,
         });
     };
-    
 
+    //submit form here here 
+    
     //return form here 
     return(
         <div className = "signupForm">
@@ -80,12 +81,31 @@ export const Signup = () => {
         </form>
         </div>
     )
-}
+};
 
 
 export const Login = () => {
     //state here
+    const [formState, setFormState] = useState(
+        {
+            username: "",
+            email: "",
+            password: "",
+        }
+    );
 
+    const handleChange = event => {
+        const {name, value} = event.target;
+        console.log(value)
+
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
+
+    //submit form function here 
+    
     //return form here 
     return (
         <div className = "loginForm">
@@ -100,6 +120,8 @@ export const Login = () => {
                             type="email"
                             id="email"
                             aria-describedby="emailHelp"
+                            value={setFormState.email}
+                            onChange={handleChange}
                         />
                 </div>
                 <div className ="mb-3">
@@ -110,6 +132,8 @@ export const Login = () => {
                         name="password"
                         type="password"
                         id="password"
+                        value={setFormState.password}
+                        onChange={handleChange}
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
