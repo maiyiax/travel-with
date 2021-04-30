@@ -1,10 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+import {Login, Signup} from "./components/Forms.js";
 
 function App() {
   return (
     <div className="App">
-      Hello
+      {/*going to input logIn/signUp here */}
+      <Signup />
     </div>
   );
 }
