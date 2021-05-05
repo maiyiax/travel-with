@@ -12,7 +12,6 @@ const typeDefs = gql`
         _id: ID
         name: String
         description: String
-        restaurants: [Restaurant]
     }
 
     type Auth {
