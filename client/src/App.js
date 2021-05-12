@@ -2,7 +2,7 @@ import React from 'react';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import './App.css';
-import Signup from "./components/Forms";
+import {Signup, Login} from "./components/Forms";
 // import Homepage from "./pages/Homepage";
 
 
