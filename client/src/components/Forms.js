@@ -1,9 +1,10 @@
 //signup and login forms here 
-import React,{useState} from "react";
+import React, {useState} from "react";
 import {LOGIN, ADD_USER} from "../utils/mutations";
-import {useMutation} from "@apollo/react-hooks";
+import { useMutation } from '@apollo/react-hooks';
+import Auth from '../utils/auth';
 
-export const  Signup= () => {
+export default function Signup() {
     //state here
     const [formState, setFormState] = useState(
         {
@@ -31,14 +32,15 @@ export const  Signup= () => {
     // const handleFormSubmit = async (event) => {
     //     event.preventDefault();
 
-    //     try{
-    //         const {data} = await addUser({
-    //             variables: { ...formState}
-    //         });
-    //     }catch(e){
-    //         console.error(e);
-    //     }
-    // };
+        try{
+            const {data} = await addUser({
+                variables: { ...formState}
+            });
+            Auth.login(data.addUser.token);
+        }catch(e){
+            console.error(e);
+        }
+    };
 
     //return form here 
     return(
@@ -100,8 +102,7 @@ export const  Signup= () => {
 };
 
 
-
-// export const Login = () => {
+// export default function Login() {
 //     //state here
 //     const [formState, setFormState] = useState(
 //         {
@@ -127,12 +128,13 @@ export const  Signup= () => {
 //     const handleFormSubmit = async event => {
 //         event.preventDefault();
 
-//         try{
+//         try {
 //             const {data} = await login({
 //                 variables: {...formState}
 //             });
+//             Auth.login(data.login.token);
 //             console.log(data);
-//         }catch(e){
+//         } catch(e){
 //             console.error(e);
 //         }
 //     };
