@@ -1,5 +1,5 @@
 import './App.css';
-import {Login, Signup} from "./components/Forms";
+import {Signup} from "./components/Forms";
 import Homepage from "./pages/Homepage";
 
 function App() {
