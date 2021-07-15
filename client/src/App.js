@@ -2,7 +2,8 @@ import React from 'react';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import './App.css';
-import Signup from "./components/Forms";
+import Signup from "./components/Signup";
+import Login from './components/Login';
 // import Homepage from "./pages/Homepage";
 
 
@@ -25,7 +26,7 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         {/*going to input logIn/signUp here */}
-        {/* <Login /> */}
+        <Login />
         <Signup />
         {/* <Homepage /> */}
       </div>
